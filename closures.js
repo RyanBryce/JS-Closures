@@ -48,9 +48,15 @@ Create a makeCall function that when invoked logs 'Calling Jake at 435-215-9248'
 in your console. */
 
   //Code Here
+var callMaker = callFriend();
 
+function makeCall(){
+  var number = '435-215-9248';
+  callMaker(number);
+  return callMaker(number);
+}
 
-
+makeCall();
 
 
 
@@ -67,14 +73,19 @@ in your console. */
 properly. */
 
 //Code Here
-
+function makeCounter() {
+  var num = 0
+  return function countNums() {
+    num++
+    return num;
+  }
+}
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
-
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -96,16 +107,18 @@ function is responsible for decrementing the value by one. You will need to use
 the module pattern to achieve this. */
 
 function counterFactory(value) {
-
-  // Code here.
-
-
   return {
+    inc: function() {
+      return ++value
+    },
+    dec: function() {
+      return --value
+    }
   }
 }
 
 
-counter = counterFactory(10);
+var counter = counterFactory(10);
 
 
 
@@ -129,10 +142,12 @@ function motivation(firstname, lastname){
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
   // code message function here.
-
+  function message() {
+    return welcomeText + firstname + ' ' + lastname + ".";
+  }
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
@@ -171,13 +186,15 @@ var module = (function() {
 	// outside our lexical scope
 
   return {
-    // Code here.
+    publicMethod: function(){
+    return privateMethod()
+    }
   };
 
 })();
 
 // Uncomment this after you create your public method
-//   module.publicMethod();
+  module.publicMethod();
 
 
 
@@ -200,13 +217,13 @@ then 3, etc). Run this code in your console to see what the output is. */
 // To make this code work you will need to create a new scope for every iteration.
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(newScope(i), i * 1000)
   }
 
-  function newScope(i) {
-    console.log(i)
+  function newScope(num) {
+      return function(){
+    console.log(num)
+    }
   }
 }
 timeOutCounter();
@@ -221,9 +238,14 @@ timeOutCounter();
 \******************************************************************************/
 
 var funcArray = [];
-
-/*
-  Make the following code work
+for (var i = 0; i < 6; i++) {
+  funcArray.push(logger(i));
+}
+function logger(num){
+  return function () {
+    return num;
+  }
+}
 
   funcArray[0]() //0
   funcArray[1]() //1
@@ -231,6 +253,3 @@ var funcArray = [];
   funcArray[3]() //3
   funcArray[4]() //4
   funcArray[5]() //5
-
-  *Hint: Don't let this fool you. Break down what's really happening here.
-*/
